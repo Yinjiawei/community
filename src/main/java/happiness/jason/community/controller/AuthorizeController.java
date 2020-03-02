@@ -2,6 +2,8 @@ package happiness.jason.community.controller;
 
 import happiness.jason.community.dto.AccessTokenDTO;
 import happiness.jason.community.dto.GithubUser;
+import happiness.jason.community.mapper.UserMapper;
+import happiness.jason.community.model.User;
 import happiness.jason.community.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,12 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
-
-    @Autowired
-    private GithubProvider githubProvider;
 
     @Value("${github.client_id}")
     private String clientId;
@@ -23,6 +23,11 @@ public class AuthorizeController {
     private String clientSecret;
     @Value("${github.redirect_uri}")
     private String redirectUri;
+
+    @Autowired
+    private GithubProvider githubProvider;
+    @Autowired
+    private UserMapper userMapper;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
@@ -40,6 +45,14 @@ public class AuthorizeController {
 
         if (githubUser != null) {
             // login successfully
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setName(githubUser.getName());
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            userMapper.insert(user);
+
             request.getSession().setAttribute("user", githubUser);
         }
 
