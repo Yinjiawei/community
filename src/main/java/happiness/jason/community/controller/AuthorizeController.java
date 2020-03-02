@@ -38,12 +38,11 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
 
-        if(githubUser != null ){
+        if (githubUser != null) {
             // login successfully
             request.getSession().setAttribute("user", githubUser);
-            return "redirect:index";
-        }else{
-            return "redirect:index";
         }
+
+        return "redirect:/";
     }
 }
