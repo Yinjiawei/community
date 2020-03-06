@@ -10,3 +10,5 @@
 ## 工具  
 [Git](https://git-scm.com/download)  
 [Visual Paradigm 画图工具](https://www.visual-paradigm.com/)  
+[Flyway](https://www.flyway.org/)  
+[Lombok](https://projectlombok.org/)  
