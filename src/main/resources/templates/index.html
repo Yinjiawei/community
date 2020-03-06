@@ -53,7 +53,7 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12">
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h2>
+            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
             <hr/>
             <div class="media" th:each="question: ${questions}">
                 <div class="media-left">
@@ -67,7 +67,7 @@
                     <span th:text="${question.description}">please click here</span><br/>
                     <span class="text-desc"><span th:text="${question.commentCount}"></span> 个回复 • <span
                             th:text="${question.viewCount}"></span> 次浏览 • <span
-                            th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd')}"></span></span>
+                            th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH')}"></span></span>
                 </div>
             </div>
         </div>
