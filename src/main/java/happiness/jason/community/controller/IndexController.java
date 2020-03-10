@@ -1,5 +1,7 @@
 package happiness.jason.community.controller;
 
+import com.sun.tools.internal.xjc.model.CDefaultValue;
+import happiness.jason.community.dto.PaginationDTO;
 import happiness.jason.community.dto.QuestionDTO;
 import happiness.jason.community.mapper.QuestionMapper;
 import happiness.jason.community.mapper.UserMapper;
@@ -25,7 +27,9 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-                        Model model) {
+                        Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "5") Integer size) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0) {
             for (Cookie cookie : cookies) {
@@ -40,8 +44,8 @@ public class IndexController {
             }
         }
 
-        List<QuestionDTO> questionList = questionService.list();
-        model.addAttribute("questions", questionList);
+        PaginationDTO pagination = questionService.list(page, size);
+        model.addAttribute("pagination", pagination);
         return "index";
     }
 
