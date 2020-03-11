@@ -21,7 +21,7 @@ public class QuestionService {
     private UserMapper userMapper;
 
     public PaginationDTO list(Integer page, Integer size) {
-        List<QuestionDTO> questionDTOList = new ArrayList<>();
+        PaginationDTO paginationDTO = new PaginationDTO();
 
         if (page < 1) {
             page = 1;
@@ -34,7 +34,7 @@ public class QuestionService {
         Integer offset = size * (page - 1);
         List<Question> questions = questionMapper.list(offset, size);
 
-        PaginationDTO paginationDTO = new PaginationDTO();
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questions) {
             User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
@@ -43,7 +43,35 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
         paginationDTO.setQuestions(questionDTOList);
-        paginationDTO.setPagination(totalPage, page, size);
+        paginationDTO.setPagination(totalPage, page);
+
+        return paginationDTO;
+    }
+
+    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+        PaginationDTO paginationDTO = new PaginationDTO();
+
+        if (page < 1) {
+            page = 1;
+        }
+        int totalCount = questionMapper.countByUserId(userId);
+        int totalPage = (int) Math.ceil((double) totalCount / size);
+        if (page > totalPage) {
+            page = totalPage;
+        }
+        Integer offset = size * (page - 1);
+        List<Question> questions = questionMapper.listByUserId(userId, offset, size);
+
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+        for (Question question : questions) {
+            User user = userMapper.findById(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTO.setUser(user);
+            questionDTOList.add(questionDTO);
+        }
+        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setPagination(totalPage, page);
 
         return paginationDTO;
     }
