@@ -20,7 +20,6 @@ public class IndexController {
                         @RequestParam(name = "size", defaultValue = "5") Integer size,
                         HttpServletRequest request,
                         Model model) {
-
         PaginationDTO pagination = questionService.list(page, size);
         model.addAttribute("pagination", pagination);
         return "index";
