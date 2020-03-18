@@ -85,4 +85,21 @@ public class QuestionService {
 
         return questionDTO;
     }
+
+    public void createOrUpdate(Question question) {
+        if(question == null){
+            return;
+        }
+
+        if(question.getId() == null){
+            // create
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtCreate());
+            questionMapper.create(question);
+        }else{
+            // update
+            question.setGmtModified(System.currentTimeMillis());
+            questionMapper.update(question);
+        }
+    }
 }

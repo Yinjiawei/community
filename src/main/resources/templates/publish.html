@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>发布 - 我的社区</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="//cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="//cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css" />
-    <link rel="stylesheet" href="css/community.css" />
-    <link rel="stylesheet" href="css/publish.css" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
+    <link rel="stylesheet" href="/css/publish.css"/>
     <script src="//cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -14,10 +14,11 @@
 <div th:insert="navigation :: nav"></div>
 <div class="container-fluid main">
     <div class="row">
-        <div class="col-lg-9 col-md-12">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr/>
             <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）：</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="问题标题……"
@@ -26,7 +27,7 @@
                 <div class="form-group">
                     <label for="description">问题补充（必填，请参照右侧提示）：</label>
                     <textarea class="form-control" id="description" name="description" cols="30" rows="10"
-                              th:value="${description}"></textarea>
+                              th:text="${description}"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="tag">添加标签：</label>
@@ -37,15 +38,16 @@
                 <div class="container-fluid main">
                     <div class="row">
                         <div class="alert alert-danger col-lg-9 col-md-12 col-sm-9 col-xs-12" th:text="${error}"
-                        th:if="${error != null}"></div>
-                        <div class="col-lg-3 col-md-12 col-sm-9 col-xs-12"></div>
+                             th:if="${error != null}">
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-9 col-xs-12">
                             <button type="submit" class="btn btn-success btn-publish">发布</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-lg-3 col-md-12">
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>问题发起指南</h3>
             问题标题：XXXXXXXXXXXXXX
         </div>
