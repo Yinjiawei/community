@@ -14,3 +14,5 @@
 [Visual Paradigm 画图工具](https://www.visual-paradigm.com/)  
 [Flyway](https://www.flyway.org/)  
 [Lombok](https://projectlombok.org/)  
+
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate  
