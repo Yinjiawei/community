@@ -14,6 +14,7 @@
 [Visual Paradigm 画图工具](https://www.visual-paradigm.com/)  
 [Flyway](https://www.flyway.org/)  
 [Lombok](https://projectlombok.org/)  
+[Postman](https://chrome.google.com/webstore/detail/coohdfgbiolnekdpbcijmhambjff/)  
 
 mvn flyway:migrate  
-mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate  
+mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
