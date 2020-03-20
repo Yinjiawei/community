@@ -15,4 +15,5 @@
 [Flyway](https://www.flyway.org/)  
 [Lombok](https://projectlombok.org/)  
 
+mvn flyway:migrate  
 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate  

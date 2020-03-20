@@ -4,6 +4,7 @@ import happiness.jason.community.dto.PaginationDTO;
 import happiness.jason.community.dto.QuestionDTO;
 import happiness.jason.community.exception.CustomizeErrorCode;
 import happiness.jason.community.exception.CustomizeException;
+import happiness.jason.community.mapper.QuestionExtMapper;
 import happiness.jason.community.mapper.QuestionMapper;
 import happiness.jason.community.mapper.UserMapper;
 import happiness.jason.community.model.Question;
@@ -21,6 +22,8 @@ import java.util.List;
 public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
 
@@ -124,5 +127,12 @@ public class QuestionService {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
         }
+    }
+
+    public void increaseViewCount(Integer id) {
+        Question question = new Question();
+        question.setViewCount(1);
+        question.setId(id);
+        questionExtMapper.increaseViewCount(question);
     }
 }
