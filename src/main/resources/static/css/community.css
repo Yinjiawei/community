@@ -1,24 +1,37 @@
-body{
+body {
     background-color: #efefef;
 }
 
-.main{
+.main {
     background-color: #ffffff;
     margin: 30px;
 }
 
-.community-menu{
+.community-menu {
     color: #999;
     font-size: 12px;
 }
 
-.avatar{
+.avatar {
     width: 38px;
     height: 38px;
 }
 
-.text-desc{
+.text-desc {
     font-size: 12px;
     font-weight: normal;
     color: #999999;
+}
+
+.media-body {
+    padding-top: 10px;
+}
+
+.comments {
+    margin: 10px 0;
+}
+
+.btn-comment {
+    float: right;
+    margin-bottom: 10px;
 }

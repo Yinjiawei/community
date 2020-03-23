@@ -24,7 +24,7 @@ public class CommentService {
     @Transactional
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
-            throw new CustomizeException(CustomizeErrorCode.NO_LOGIN);
+            throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
         }
 
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
@@ -48,7 +48,6 @@ public class CommentService {
             question.setCommentCount(1);
             questionExtMapper.increaseCommentCount(question);
         }
-
 
     }
 }
