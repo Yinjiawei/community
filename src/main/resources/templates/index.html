@@ -11,9 +11,9 @@
     <script src="//cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <script type="application/javascript">
-    window.onload = function(){
+    window.onload = function () {
         let closable = window.localStorage.getItem("closable");
-        if(closable === "true"){
+        if (closable === "true") {
             window.close();
             window.localStorage.removeItem("closable");
         }

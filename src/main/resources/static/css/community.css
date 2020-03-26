@@ -35,3 +35,28 @@ body {
     float: right;
     margin-bottom: 10px;
 }
+
+.comments{
+    padding-bottom: 5px;;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.question-comment-line{
+    margin-bottom: 0px;
+}
+
+.menu{
+    color: #999;
+    margin-top: 5px;
+}
+
+.menu .icon{
+    margin-left: 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.menu .icon:hover{
+    color: #499ef3;
+}

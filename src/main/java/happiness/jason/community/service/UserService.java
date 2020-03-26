@@ -19,12 +19,12 @@ public class UserService {
                 .andAccountIdEqualTo(user.getAccountId());
         List<User> users = userMapper.selectByExample(userExample);
 
-        if(users.size() == 0){
+        if (users.size() == 0) {
             // insert
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-        }else{
+        } else {
             // update
             User updateUser = new User();
             updateUser.setGmtModified(System.currentTimeMillis());

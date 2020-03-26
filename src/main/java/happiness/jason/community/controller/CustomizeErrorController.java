@@ -21,11 +21,11 @@ public class CustomizeErrorController implements ErrorController {
 
     @RequestMapping(produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView errorHtml(HttpServletRequest request,
-                                 Model model){
+                                  Model model) {
         HttpStatus status = getStatus(request);
-        if(status.is4xxClientError()){
+        if (status.is4xxClientError()) {
             model.addAttribute("message", "你这个请求错了吧，要不然换个姿势？");
-        }else if(status.is5xxServerError()){
+        } else if (status.is5xxServerError()) {
             model.addAttribute("message", "服务器冒烟啦！！！要不然你稍后再试试～");
         }
 
@@ -35,12 +35,12 @@ public class CustomizeErrorController implements ErrorController {
     private HttpStatus getStatus(HttpServletRequest request) {
         Integer statusCode = (Integer) request
                 .getAttribute("javax.servlet.error.status_code");
-        if(statusCode == null){
+        if (statusCode == null) {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
-        try{
+        try {
             return HttpStatus.valueOf(statusCode);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
     }

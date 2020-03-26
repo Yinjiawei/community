@@ -1,6 +1,5 @@
 package happiness.jason.community.dto;
 
-import happiness.jason.community.model.Question;
 import lombok.Data;
 
 import java.util.ArrayList;
