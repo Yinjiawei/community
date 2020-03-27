@@ -8,4 +8,5 @@ create table comment
 	gmt_create bigint,
 	gmt_modified bigint,
 	like_count bigint default 0
+	comment_count bigint default 0
 );

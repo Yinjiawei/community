@@ -60,38 +60,33 @@ $(function () {
 
         // 显示所有的评论
         if ($(this).hasClass("active")) {
+            let $subCommentContainer = $("#comment-" + commentId);
+            if ($subCommentContainer.children().length > 1) {
+                return;
+            }
+
             $.getJSON("/comment/" + commentId, function (data) {
-                let items = [];
-                $.each(data.data, function (key, comment) {
-                    let htmlElement = $("<div/>", {
-                        "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse comments",
-                        html: `
-                            <div class="media">
-                                <div class="media-left">
-                                    <a href="#">
+                $.each(data.data.reverse(), function (key, comment) {
+                    let gmtCreate = moment(comment.gmtCreate).format("YYYY-MM-DD");
+                    let c = $("<div/>", {
+                        "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 comments",
+                        html: `<div class="media">
+                                    <div class="media-left">
                                         <img class="media-object img-rounded avatar" src="${comment.user.avatarUrl}">
-                                    </a>
-                                </div>
-                                <div class="media-body">
-                                    <h5 class="media-heading">
-                                        <span >${comment.user.name}</span>
-                                    </h5>
-                                    <div>${comment.content}</div>
-                                    <div class="menu">
                                     </div>
-                                </div>
-                            </div>
-                        `
+                                    <div class="media-body">
+                                        <h5 class="media-heading">
+                                            <span>${comment.user.name}</span>
+                                        </h5>
+                                        <div>${comment.content}</div>
+                                        <div class="menu">
+                                            <span class="pull-right">${gmtCreate}</span>
+                                        </div>
+                                    </div>
+                               </div>`
                     });
-                    items.push(htmlElement);
+                    $subCommentContainer.prepend(c);
                 });
-                
-                let $commentBody =$("<div/>", {
-                    "class": "col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse sub-comments",
-                    "id": "comment-" + commentId,
-                    html: items.join()
-                })
-                $("#comment-" + commentId).append($commentBody);
             });
         }
     });

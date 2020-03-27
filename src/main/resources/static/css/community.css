@@ -76,3 +76,8 @@ body {
 .sub-comments .btn {
      margin: 10px 0;
  }
+
+.comment-count{
+    margin-left: -12px;
+    vertical-align: text-top;
+}
