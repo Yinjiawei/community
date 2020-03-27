@@ -1,6 +1,7 @@
 package happiness.jason.community.service;
 
 import happiness.jason.community.dto.CommentDTO;
+import happiness.jason.community.dto.ResultDTO;
 import happiness.jason.community.enums.CommentTypeEnum;
 import happiness.jason.community.exception.CustomizeErrorCode;
 import happiness.jason.community.exception.CustomizeException;
@@ -9,11 +10,14 @@ import happiness.jason.community.mapper.QuestionExtMapper;
 import happiness.jason.community.mapper.QuestionMapper;
 import happiness.jason.community.mapper.UserMapper;
 import happiness.jason.community.model.*;
-import javafx.print.Collation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,11 +66,12 @@ public class CommentService {
 
     }
 
-    public List<CommentDTO> listByQuestionId(long id) {
+    public List<CommentDTO> listByTargetId(long id, CommentTypeEnum commentType) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(commentType.getType());
+        commentExample.setOrderByClause("gmt_create desc");
         List<Comment> comments = commentMapper.selectByExample(commentExample);
 
         if (comments.size() == 0) {

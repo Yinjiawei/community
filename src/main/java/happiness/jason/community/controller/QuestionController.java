@@ -1,9 +1,8 @@
 package happiness.jason.community.controller;
 
-import happiness.jason.community.dto.CommentCreateDTO;
 import happiness.jason.community.dto.CommentDTO;
 import happiness.jason.community.dto.QuestionDTO;
-import happiness.jason.community.model.Comment;
+import happiness.jason.community.enums.CommentTypeEnum;
 import happiness.jason.community.service.CommentService;
 import happiness.jason.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class QuestionController {
     public String Question(@PathVariable(name = "id") long id,
                            Model model) {
         QuestionDTO questionDTO = questionService.getById(id);
-        List<CommentDTO> comments = commentService.listByQuestionId(id);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
         questionService.increaseViewCount(id);
         model.addAttribute("question", questionDTO);
