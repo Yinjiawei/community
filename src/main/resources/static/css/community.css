@@ -81,3 +81,19 @@ body {
     margin-left: -12px;
     vertical-align: text-top;
 }
+
+.question-tag{
+    margin-right: 10px;
+}
+
+.question-related{
+    line-height: 20px;
+    font-size: 13px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
+}
+
+.question-ad{
+    width: 80px;
+}
