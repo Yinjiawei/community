@@ -97,3 +97,12 @@ body {
 .question-ad{
     width: 80px;
 }
+
+.publish-tag-tab{
+    display: none;
+    margin-top: 10px;
+}
+.publish-tag{
+    margin: 10px;
+}
+

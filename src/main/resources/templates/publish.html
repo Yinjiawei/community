@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/publish.css"/>
     <script src="//cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/community.js" type="application/javascript"></script>
 </head>
 <body>
 <div th:insert="navigation :: nav"></div>
@@ -32,7 +33,26 @@
                 <div class="form-group">
                     <label for="tag">添加标签：</label>
                     <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签，以,号分隔"
-                           th:value="${tag}">
+                           th:value="${tag}" autocomplete="off">
+                    <div id="select_tag" class="publish-tag-tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory: ${tags}">
+                                <a th:href="'#'+${selectCategory.categoryName}" aria-controls="home" role="tab"
+                                   data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane" th:id="${selectCategory.categoryName}"
+                                 th:each="selectCategory: ${tags}">
+                                    <span class="publish-parent-span">
+                                        <span class="label label-info publish-tag"
+                                              th:each="selectTag: ${selectCategory.tags}">
+                                            <span class="glyphicon glyphicon-tags" th:text="${selectTag}"></span>
+                                        </span>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="container-fluid main">

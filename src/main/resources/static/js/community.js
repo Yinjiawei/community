@@ -90,4 +90,32 @@ $(function () {
             });
         }
     });
+
+    /**
+     * 点击点击啊tag
+     */
+    $(".publish-tag").on('click', function () {
+        let previous = $("#tag").val();
+        let newTag = $(this).text().trim();
+        if (previous === newTag || previous.indexOf(',' + newTag) !== -1 || previous.indexOf(newTag + ',') === 0) {
+            return;
+        }
+        if (previous) {
+            $("#tag").val(previous + ',' + newTag);
+        } else {
+            $("#tag").val(newTag);
+        }
+    });
+
+    /**
+     * 打开关闭tag选择
+     */
+
+    $("#tag").on('focus', function(){
+        $("#select_tag").show();
+    });
+    // $("#tag").on('blur', function(){
+    //     $("#select_tag").hide();
+    // });
+
 });
