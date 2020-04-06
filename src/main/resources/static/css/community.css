@@ -65,7 +65,7 @@ body {
     color: #499ef3;
 }
 
-.sub-comments{
+.sub-comments {
     border-radius: 5px;
     border: 1px solid #eee;
     margin-top: 10px;
@@ -74,19 +74,19 @@ body {
 }
 
 .sub-comments .btn {
-     margin: 10px 0;
- }
+    margin: 10px 0;
+}
 
-.comment-count{
+.comment-count {
     margin-left: -12px;
     vertical-align: text-top;
 }
 
-.question-tag{
+.question-tag {
     margin-right: 10px;
 }
 
-.question-related{
+.question-related {
     line-height: 20px;
     font-size: 13px;
     margin-left: 0;
@@ -94,15 +94,20 @@ body {
     padding-left: 0;
 }
 
-.question-ad{
+.question-ad {
     width: 80px;
 }
 
-.publish-tag-tab{
+.publish-tag-tab {
     display: none;
     margin-top: 10px;
 }
-.publish-tag{
-    margin: 10px;
+
+.publish-tag {
+    margin: 5px 5px;
+    display: inline-block;
+    white-space: normal;
+    padding: 5px;
+    line-height: normal;
 }
 
