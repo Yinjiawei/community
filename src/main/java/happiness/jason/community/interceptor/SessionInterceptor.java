@@ -3,6 +3,7 @@ package happiness.jason.community.interceptor;
 import happiness.jason.community.mapper.UserMapper;
 import happiness.jason.community.model.User;
 import happiness.jason.community.model.UserExample;
+import happiness.jason.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -17,6 +18,8 @@ import java.util.List;
 public class SessionInterceptor implements HandlerInterceptor {
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    NotificationService notificationService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -30,6 +33,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     List<User> users = userMapper.selectByExample(userExample);
                     if (users.size() != 0) {
                         request.getSession().setAttribute("user", users.get(0));
+                        Long unreadNotificationCount = notificationService.unreadCount(users.get(0).getId());
+                        request.getSession().setAttribute("unreadNotificationCount", unreadNotificationCount);
                     }
                     break;
                 }

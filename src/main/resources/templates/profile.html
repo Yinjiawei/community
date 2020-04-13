@@ -49,7 +49,7 @@
                     <div class="media-body">
                         <p class="media-heading">
                             <span th:text="${notification.notifierName + ' ' + notification.typeName + ' '}"></span>
-                            <a th:href="@{'/notification/' + ${notification.outerid}}"
+                            <a th:href="@{'/notification/' + ${notification.id}}"
                                th:text="${notification.outerTitle}">
                             </a>
                             <span class="label label-danger" th:if="${notification.status == 0}">未读</span>
@@ -94,7 +94,7 @@
                    th:class="${section == 'questions'} ? 'list-group-item active' : 'list-group-item'">我的问题</a>
                 <a href="\profile\replies"
                    th:class="${section == 'replies'} ? 'list-group-item active' : 'list-group-item'">
-                    最新回复<span class="badge" th:text="${unreadCount}"></span>
+                    最新回复<span class="badge" th:text="${session.unreadNotificationCount}"></span>
                 </a>
             </div>
         </div>

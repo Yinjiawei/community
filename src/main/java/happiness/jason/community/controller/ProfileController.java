@@ -35,17 +35,13 @@ public class ProfileController {
 
         if ("questions".equals(action)) {
             PaginationDTO<QuestionDTO> pagination = questionService.list(user.getId(), page, size);
-            Long unreadCount = notificationService.unreadCount(user.getId());
             model.addAttribute("pagination", pagination);
             model.addAttribute("section", "questions");
-            model.addAttribute("unreadCount", unreadCount);
             model.addAttribute("sectionName", "我的问题");
         } else if ("replies".equals(action)) {
             PaginationDTO<NotificationDTO> pagination = notificationService.list(user.getId(), page, size);
-            Long unreadCount = notificationService.unreadCount(user.getId());
             model.addAttribute("pagination", pagination);
             model.addAttribute("section", "replies");
-            model.addAttribute("unreadCount", unreadCount);
             model.addAttribute("sectionName", "最新回复");
         }
 

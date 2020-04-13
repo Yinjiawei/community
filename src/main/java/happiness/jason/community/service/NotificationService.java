@@ -32,6 +32,7 @@ public class NotificationService {
         NotificationExample notificationExample = new NotificationExample();
         notificationExample.createCriteria()
                 .andReceiverEqualTo(userId);
+        notificationExample.setOrderByClause("gmt_create desc");
         int totalCount = (int) notificationMapper.countByExample(notificationExample);
         int totalPage = (int) Math.ceil((double) totalCount / size);
         if (page > totalPage) {

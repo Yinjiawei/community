@@ -8,6 +8,7 @@ import happiness.jason.community.exception.CustomizeErrorCode;
 import happiness.jason.community.exception.CustomizeException;
 import happiness.jason.community.mapper.*;
 import happiness.jason.community.model.*;
+import org.omg.CORBA.COMM_FAILURE;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,11 +45,6 @@ public class CommentService {
             throw new CustomizeException(CustomizeErrorCode.COMMENT_TYPE_NOT_FOUND);
         }
 
-        Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
-        if (question == null) {
-            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
-        }
-
         if (comment.getType().equals(CommentTypeEnum.COMMENT.getType())) {
             // 回复评论
             Comment dbComment = commentMapper.selectByPrimaryKey(comment.getParentId());
@@ -64,13 +60,20 @@ public class CommentService {
             commentExtMapper.increaseCommentCount(parentComment);
 
             // 创建通知
-            createNotification(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
+            Question question = questionMapper.selectByPrimaryKey(dbComment.getParentId());
+            if (question == null) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
+            createNotification(comment, dbComment.getCommentator(), commentator.getName(), dbComment.getContent(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
         } else {
             // 回复问题
-
             commentMapper.insert(comment);
 
             // 增加评论数
+            Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
+            if (question == null) {
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
             question.setCommentCount(1);
             questionExtMapper.increaseCommentCount(question);
 
