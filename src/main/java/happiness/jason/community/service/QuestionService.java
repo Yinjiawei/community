@@ -1,5 +1,6 @@
 package happiness.jason.community.service;
 
+import happiness.jason.community.dto.NotificationDTO;
 import happiness.jason.community.dto.PaginationDTO;
 import happiness.jason.community.dto.QuestionDTO;
 import happiness.jason.community.exception.CustomizeErrorCode;
@@ -30,8 +31,8 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public PaginationDTO list(Integer page, Integer size) {
-        PaginationDTO paginationDTO = new PaginationDTO();
+    public PaginationDTO<QuestionDTO> list(Integer page, Integer size) {
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
 
         if (page < 1) {
             page = 1;
@@ -55,14 +56,14 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
         paginationDTO.setPagination(totalPage, page);
 
         return paginationDTO;
     }
 
-    public PaginationDTO list(long userId, Integer page, Integer size) {
-        PaginationDTO paginationDTO = new PaginationDTO();
+    public PaginationDTO<QuestionDTO> list(long userId, Integer page, Integer size) {
+        PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
 
         if (page < 1) {
             page = 1;
@@ -87,7 +88,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
         paginationDTO.setPagination(totalPage, page);
 
         return paginationDTO;

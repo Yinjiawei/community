@@ -1,8 +1,9 @@
 package happiness.jason.community.service;
 
 import happiness.jason.community.dto.CommentDTO;
-import happiness.jason.community.dto.ResultDTO;
 import happiness.jason.community.enums.CommentTypeEnum;
+import happiness.jason.community.enums.NotificationStatusEnum;
+import happiness.jason.community.enums.NotificationTypeEnum;
 import happiness.jason.community.exception.CustomizeErrorCode;
 import happiness.jason.community.exception.CustomizeException;
 import happiness.jason.community.mapper.*;
@@ -11,10 +12,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,15 +31,22 @@ public class CommentService {
     private UserMapper userMapper;
     @Autowired
     private CommentExtMapper commentExtMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
     @Transactional
-    public void insert(Comment comment) {
+    public void insert(Comment comment, User commentator) {
         if (comment.getParentId() == null || comment.getParentId() == 0) {
             throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
         }
 
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
             throw new CustomizeException(CustomizeErrorCode.COMMENT_TYPE_NOT_FOUND);
+        }
+
+        Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
+        if (question == null) {
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
 
         if (comment.getType().equals(CommentTypeEnum.COMMENT.getType())) {
@@ -53,21 +57,39 @@ public class CommentService {
             }
             commentMapper.insert(comment);
 
+            // 增加评论数
             Comment parentComment = new Comment();
             parentComment.setId(comment.getParentId());
             parentComment.setCommentCount((long) 1);
             commentExtMapper.increaseCommentCount(parentComment);
+
+            // 创建通知
+            createNotification(comment, dbComment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
         } else {
             // 回复问题
-            Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
-            if (question == null) {
-                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
-            }
+
             commentMapper.insert(comment);
+
+            // 增加评论数
             question.setCommentCount(1);
             questionExtMapper.increaseCommentCount(question);
-        }
 
+            // 创建通知
+            createNotification(comment, question.getCreator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION, question.getId());
+        }
+    }
+
+    private void createNotification(Comment comment, Long receiverId, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
+        Notification notification = new Notification();
+        notification.setType(notificationType.getType());
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setOuterid(outerId);
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiverId);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.insert(notification);
     }
 
     public List<CommentDTO> listByTargetId(long id, CommentTypeEnum commentType) {
@@ -104,4 +126,5 @@ public class CommentService {
 
         return commentDTOs;
     }
+
 }

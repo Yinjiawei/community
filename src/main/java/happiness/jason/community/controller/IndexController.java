@@ -1,6 +1,7 @@
 package happiness.jason.community.controller;
 
 import happiness.jason.community.dto.PaginationDTO;
+import happiness.jason.community.dto.QuestionDTO;
 import happiness.jason.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class IndexController {
                         @RequestParam(name = "size", defaultValue = "5") Integer size,
                         HttpServletRequest request,
                         Model model) {
-        PaginationDTO pagination = questionService.list(page, size);
+        PaginationDTO<QuestionDTO> pagination = questionService.list(page, size);
         model.addAttribute("pagination", pagination);
         return "index";
     }
