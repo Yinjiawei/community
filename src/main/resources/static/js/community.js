@@ -111,11 +111,24 @@ $(function () {
      * 打开关闭tag选择
      */
 
-    $("#tag").on('focus', function(){
+    $("#tag").on('focus', function () {
         $("#select_tag").show();
     });
     // $("#tag").on('blur', function(){
     //     $("#select_tag").hide();
     // });
+
+    editormd("question_editor", {
+        width  : "100%",
+        height : 350,
+        path: "/editormd/lib/",
+        delay: 0,
+        watch: false,
+        placeholder: "请输入问题描述"
+    });
+
+    editormd.markdownToHTML("question_view", {
+
+    });
 
 });
