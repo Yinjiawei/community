@@ -119,16 +119,19 @@ $(function () {
     // });
 
     editormd("question_editor", {
-        width  : "100%",
-        height : 350,
+        width: "100%",
+        height: 350,
         path: "/editormd/lib/",
         delay: 0,
         watch: false,
-        placeholder: "请输入问题描述"
+        placeholder: "请输入问题描述",
+        imageUpload: true,
+        imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        imageUploadURL: "/file/upload",
+        //crossDomainUpload: true,
+        //uploadCallbackURL: "http://xxxxxx/upload_callback.html?test=dfdf"
     });
 
-    editormd.markdownToHTML("question_view", {
-
-    });
+    editormd.markdownToHTML("question_view", {});
 
 });
