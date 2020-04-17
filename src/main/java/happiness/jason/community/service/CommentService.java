@@ -67,6 +67,7 @@ public class CommentService {
             createNotification(comment, dbComment.getCommentator(), commentator.getName(), dbComment.getContent(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
         } else {
             // 回复问题
+            comment.setCommentCount((long) 0);
             commentMapper.insert(comment);
 
             // 增加评论数
@@ -83,6 +84,10 @@ public class CommentService {
     }
 
     private void createNotification(Comment comment, Long receiverId, String notifierName, String outerTitle, NotificationTypeEnum notificationType, Long outerId) {
+        if(receiverId == comment.getCommentator()){
+            return;
+        }
+
         Notification notification = new Notification();
         notification.setType(notificationType.getType());
         notification.setGmtCreate(System.currentTimeMillis());
