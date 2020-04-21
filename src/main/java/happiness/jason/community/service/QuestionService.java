@@ -3,6 +3,7 @@ package happiness.jason.community.service;
 import happiness.jason.community.dto.NotificationDTO;
 import happiness.jason.community.dto.PaginationDTO;
 import happiness.jason.community.dto.QuestionDTO;
+import happiness.jason.community.dto.QuestionQueryDTO;
 import happiness.jason.community.exception.CustomizeErrorCode;
 import happiness.jason.community.exception.CustomizeException;
 import happiness.jason.community.mapper.QuestionExtMapper;
@@ -31,13 +32,20 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public PaginationDTO<QuestionDTO> list(Integer page, Integer size) {
+    public PaginationDTO<QuestionDTO> list(String search, Integer page, Integer size) {
+        if (!StringUtils.isEmpty(search)) {
+            String[] searchs = search.split(" ");
+            search = Arrays.stream(searchs).collect(Collectors.joining("|"));
+        }
+
         PaginationDTO<QuestionDTO> paginationDTO = new PaginationDTO<>();
 
         if (page < 1) {
             page = 1;
         }
-        int totalCount = (int) questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        int totalCount = questionExtMapper.countBySearch(questionQueryDTO);
         int totalPage = (int) Math.ceil((double) totalCount / size);
         if (page > totalPage) {
             page = totalPage;
@@ -45,8 +53,9 @@ public class QuestionService {
         Integer offset = size * (page - 1);
         QuestionExample questionExample = new QuestionExample();
         questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questions =
-                questionMapper.selectByExampleWithRowbounds(questionExample, new RowBounds(offset, size));
+        questionQueryDTO.setSize(size);
+        questionQueryDTO.setPage(offset);
+        List<Question> questions = questionExtMapper.selectBySearch(questionQueryDTO);
 
         List<QuestionDTO> questionDTOList = new ArrayList<>();
         for (Question question : questions) {
