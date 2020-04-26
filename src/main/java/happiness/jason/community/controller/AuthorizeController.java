@@ -5,6 +5,7 @@ import happiness.jason.community.dto.GithubUser;
 import happiness.jason.community.model.User;
 import happiness.jason.community.provider.GithubProvider;
 import happiness.jason.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Value("${github.client_id}")
